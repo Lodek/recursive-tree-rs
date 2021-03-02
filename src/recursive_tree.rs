@@ -25,11 +25,29 @@ impl<T> Tree<T> {
         }
     }
 
+    fn fold_list_immutable<F, U>(f: F, acc: U, xs: Vec<U>) {
+        // how do I do this... Popping from the vec would mutate it.
+        // I need an iterator over the vec
+        // Then I use it as the recursion leverage
+        let mut iter = xs.iter();
+    }
+
+    fn fold_iter<F, U, I>(f: F, acc: U, iter: Iterator<I>) 
+        where F: Fn(U, I) -> U
+    {
+        match iter.next() {
+            Some(elem) => fold_iter(f, f(acc, elem), iter),
+            None => acc
+        }
+    }
+
     /// Depth first search fold implementation
     pub fn fold_dfs<F, U>(f: F, acc: U, tree: &Tree<T>) -> U
     where
-        F: Fn(U, Tree<T>) -> U,
+        F: Fn(U, &Tree<T>) -> U,
     {
+        let acc = f(acc, tree);
+        //tree.children().iter().fold(acc, |acc_new, tree| Tree::fold_dfs(f, acc_new, tree))
         acc
     }
 
