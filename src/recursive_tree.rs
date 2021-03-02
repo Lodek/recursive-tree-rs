@@ -55,8 +55,14 @@ mod tests {
     }
 
     #[test]
-    fn children_return_childs_for_tree() {
+    fn children_returns_childs_for_tree_with_childs() {
         let tree = tree_factory();
         assert_eq!(tree.children().len(), 2);
+    }
+
+    #[test]
+    fn children_returns_empty_array_for_leaf() {
+        let tree = Tree::Leaf(1);
+        assert_eq!(tree.children().len(), 0);
     }
 }
