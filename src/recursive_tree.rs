@@ -16,6 +16,15 @@ impl<T> Tree<T> {
         }
     }
 
+    /// Return vector of child trees if `self` is a Node,
+    /// else returns the empty list.
+    pub fn children(&self) -> Vec<&Tree<T>> {
+        match self {
+            Tree::Leaf(_) => Vec::new(),
+            Tree::Node(_, trees) => trees.iter().collect()
+        }
+    }
+
     /// Depth first search fold implementation
     pub fn fold_dfs<F, U>(f: F, acc: U, tree: &Tree<T>) -> U
     where
@@ -25,7 +34,7 @@ impl<T> Tree<T> {
     }
 
     /// Breadth first search fold implementation
-    pub fn fold_dfs<F, U>(f: F, acc: U, tree: &Tree<T>) -> U
+    pub fn fold_bfs<F, U>(f: F, acc: U, tree: &Tree<T>) -> U
     where
         F: Fn(U, Tree<T>) -> U,
     {
@@ -38,4 +47,16 @@ impl<T> Tree<T> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn tree_factory() -> Tree<i32> {
+        let c1 = Tree::Leaf(1);
+        let c2 = Tree::Leaf(2);
+        Tree::Node(3, vec![c1, c2])
+    }
+
+    #[test]
+    fn children_return_childs_for_tree() {
+        let tree = tree_factory();
+        assert_eq!(tree.children().len(), 2);
+    }
 }
