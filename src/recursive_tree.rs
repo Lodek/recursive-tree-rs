@@ -1,3 +1,5 @@
+use crate::util::imutable_iterator_fold;
+
 ///Tree is a recursive data type with two forms: `Node` and `Leaf`.
 ///`Leaf` contains data.
 ///`Node` contains data and a list of `Tree`
@@ -25,40 +27,22 @@ impl<T> Tree<T> {
         }
     }
 
-    fn fold_list_immutable<F, U>(f: F, acc: U, xs: Vec<U>) {
-        // how do I do this... Popping from the vec would mutate it.
-        // I need an iterator over the vec
-        // Then I use it as the recursion leverage
-        let mut iter = xs.iter();
-    }
-
-    fn fold_iter<F, U, I>(f: F, acc: U, iter: Iterator<I>) 
-        where F: Fn(U, I) -> U
-    {
-        match iter.next() {
-            Some(elem) => fold_iter(f, f(acc, elem), iter),
-            None => acc
-        }
-    }
-
     /// Depth first search fold implementation
     pub fn fold_dfs<F, U>(f: F, acc: U, tree: &Tree<T>) -> U
-    where
-        F: Fn(U, &Tree<T>) -> U,
+        where F: Fn(U, &Tree<T>) -> U,
     {
-        let acc = f(acc, tree);
         //tree.children().iter().fold(acc, |acc_new, tree| Tree::fold_dfs(f, acc_new, tree))
         acc
     }
 
     /// Breadth first search fold implementation
     pub fn fold_bfs<F, U>(f: F, acc: U, tree: &Tree<T>) -> U
-    where
-        F: Fn(U, Tree<T>) -> U,
+        where F: Fn(U, Tree<T>) -> U,
     {
         acc
     }
 }
+
 
 //impl fmt::Display for Tree {
 
