@@ -1,4 +1,5 @@
 mod recursive_tree;
+mod util;
 
 #[cfg(test)]
 mod tests {
