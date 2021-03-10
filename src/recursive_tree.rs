@@ -1,4 +1,4 @@
-use crate::util::imutable_iterator_fold;
+use crate::util::immutable_iterator_fold;
 
 ///Tree is a recursive data type with two forms: `Node` and `Leaf`.
 ///`Leaf` contains data.
@@ -31,7 +31,12 @@ impl<T> Tree<T> {
     pub fn fold_dfs<F, U>(f: F, acc: U, tree: &Tree<T>) -> U
         where F: Fn(U, &Tree<T>) -> U,
     {
-        //tree.children().iter().fold(acc, |acc_new, tree| Tree::fold_dfs(f, acc_new, tree))
+        let acc = f(acc, tree);
+        let children_iterator = tree.children().iter();
+        let folding_f = |acc_new, tree| -> U {
+            Tree::fold_dfs(f, acc_new, tree)
+        };
+        //immutable_iterator_fold(folding_f, acc, children_iterator)
         acc
     }
 

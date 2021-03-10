@@ -25,4 +25,14 @@ mod test {
         assert_eq!(result, 6);
     }
 
+    #[cfg(test)]
+    fn test_immutable_iterator_fold_references() {
+        let values: Vec<&str> = vec!["ab", "cd"];
+        let folding = |acc: String, value: &str| -> String {
+            format!("{}+{}", acc, value)
+        };
+        let result = immutable_iterator_fold(folding, String::new(), values.iter());
+        assert_eq!(result.as_str(), "ab+cd");
+    }
+
 }
