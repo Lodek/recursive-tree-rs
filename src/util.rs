@@ -31,8 +31,7 @@ mod test {
         let folding = |acc: String, value: &str| -> String {
             format!("{}+{}", acc, value)
         };
-        let result = immutable_iterator_fold(folding, String::new(), values.iter());
+        let result = immutable_iterator_fold(folding, String::new(), values.into_iter());
         assert_eq!(result.as_str(), "ab+cd");
     }
-
 }
